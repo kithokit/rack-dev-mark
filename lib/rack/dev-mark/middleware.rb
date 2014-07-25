@@ -15,7 +15,7 @@ module Rack
 
       def call(env)
         status, headers, response = @app.call(env)
-        if env["REQUEST_PATH"] and env["REQUEST_PATH"].include? "barcode"
+        if env["PATH_INFO"] and env["PATH_INFO"].include? "barcode"
           return [status, headers, response]
         end
         headers = HeaderHash.new(headers)
