@@ -12,10 +12,12 @@ module Rack
         @revision = Rack::DevMark.revision
         @timestamp = Rack::DevMark.timestamp
       end
-      
+
       def call(env)
         status, headers, response = @app.call(env)
-
+        if env["REQUEST_PATH"] and env["REQUEST_PATH"].include? "barcode"
+          return [status, headers, response]
+        end
         headers = HeaderHash.new(headers)
 
         headers['X-Rack-Dev-Mark-Env'] = CGI.escape Rack::DevMark.env
